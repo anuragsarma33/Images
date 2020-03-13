@@ -1,8 +1,15 @@
 import React from "react";
 import axios from "axios";
+
+
+//Child Component
 import SearchBar from "./SearchBar";
+import ImageList from "./ImageList";
+
 class App extends React.Component {
-  state = { images: [] };
+  //initial state
+
+state = { images: [] };
   onSearchSubmit = async term => {
     //make a request for a user with a given ID
     try {
@@ -16,9 +23,15 @@ class App extends React.Component {
           }
         }
       );
+
+      //current state results
+      this.setState({ images: response.data.results });
+    } catch (err) {
+      console.log(err, "Unable to fetch");
       this.setState({ images: response.data.results });
     } catch (err) {
       console.log(err);
+
     }
   };
   render() {
@@ -26,7 +39,11 @@ class App extends React.Component {
       <div className="ui container" style={{ marginTop: "1rem" }}>
         {/* onSubmit is a props name,not an event handler */}
         <SearchBar onSubmit={this.onSearchSubmit} />
+
+        <ImageList images={this.state.images} />
+
         <img src={this.state.response} alt="Images" />
+
       </div>
     );
   }
