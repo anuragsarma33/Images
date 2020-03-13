@@ -24,7 +24,7 @@ class App extends React.Component {
       //current state results
       this.setState({ images: response.data.results });
     } catch (err) {
-      console.log(err);
+      console.log(err, "Unable to fetch");
     }
   };
   render() {
