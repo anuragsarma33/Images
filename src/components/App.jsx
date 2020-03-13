@@ -1,10 +1,32 @@
 import React from "react";
+import axios from "axios";
 import SearchBar from "./SearchBar";
 class App extends React.Component {
+  state = { images: [] };
+  onSearchSubmit = async term => {
+    //make a request for a user with a given ID
+    try {
+      const response = await axios.get(
+        "https://api.unsplash.com/search/photos",
+        {
+          params: { query: term },
+          headers: {
+            Authorization:
+              "Client-ID fCHIQHrRgn9c0-fG60y0gN1BH3j8DNVDRSWefBlH3rg"
+          }
+        }
+      );
+      this.setState({ images: response.data.results });
+    } catch (err) {
+      console.log(err);
+    }
+  };
   render() {
     return (
       <div className="ui container" style={{ marginTop: "1rem" }}>
-        <SearchBar />
+        {/* onSubmit is a props name,not an event handler */}
+        <SearchBar onSubmit={this.onSearchSubmit} />
+        <img src={this.state.response} alt="Images" />
       </div>
     );
   }
